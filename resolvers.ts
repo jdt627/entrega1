@@ -1,27 +1,29 @@
-import { ProjectModel } from './proyecto';
+import { ModeloAvance } from './avance';
 
-const resolversProyecto = {
+const resolversAvance = {
   Query: {
-    Proyectos: async (parent, args) => {
-      const proyectos = await ProjectModel.find().populate('lider');
-      return proyectos;
+    Avances: async (parent, args) => {
+      const avances = await ModeloAvance.find().populate('proyecto').populate('creadoPor');
+      return avances;
+    },
+    filtrarAvance: async (parents, args) => {
+      const avanceFiltrado = await ModeloAvance.find({ proyecto: args.idProyecto })
+        .populate('proyecto')
+        .populate('creadoPor');
+      return avanceFiltrado;
     },
   },
   Mutation: {
-    crearProyecto: async (parent, args) => {
-      const proyectoCreado = await ProjectModel.create({
-        nombre: args.nombre,
-        estado: args.estado,
-        fase: args.fase,
-        fechaInicio: args.fechaInicio,
-        fechaFin: args.fechaFin,
-        presupuesto: args.presupuesto,
-        lider: args.lider,
-        objetivos: args.objetivos,
+    crearAvance: async (parents, args) => {
+      const avanceCreado = ModeloAvance.create({
+        fecha: args.fecha,
+        descripcion: args.descripcion,
+        proyecto: args.proyecto,
+        creadoPor: args.creadoPor,
       });
-      return proyectoCreado;
+      return avanceCreado;
     },
   },
 };
 
-export { resolversProyecto };
+export { resolversAvance };
