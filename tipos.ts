@@ -1,45 +1,34 @@
 import { gql } from 'apollo-server-express';
 
-const tiposProyecto = gql`
-  type Objetivo {
-    _id: ID!
-    descripcion: String!
-    tipo: Enum_TipoObjetivo!
+const tiposEnums = gql`
+  enum Enum_EstadoUsuario {
+    PENDIENTE
+    AUTORIZADO
+    NO_AUTORIZADO
   }
 
-  input crearObjetivo {
-    descripcion: String!
-    tipo: Enum_TipoObjetivo!
+  enum Enum_Rol {
+    ESTUDIANTE
+    LIDER
+    ADMINISTRADOR
   }
 
-  type Proyecto {
-    _id: ID!
-    nombre: String!
-    presupuesto: Float!
-    fechaInicio: Date!
-    fechaFin: Date!
-    estado: Enum_EstadoProyecto!
-    fase: Enum_FaseProyecto!
-    lider: Usuario!
-    objetivos: [Objetivo]
+  enum Enum_EstadoProyecto {
+    ACTIVO
+    INACTIVO
   }
 
-  type Query {
-    Proyectos: [Proyecto]
+  enum Enum_FaseProyecto {
+    INICIADO
+    DESARROLLO
+    TERMINADO
+    NULO
   }
 
-  type Mutation {
-    crearProyecto(
-      nombre: String!
-      presupuesto: Float!
-      fechaInicio: Date!
-      fechaFin: Date!
-      estado: Enum_EstadoProyecto!
-      fase: Enum_FaseProyecto!
-      lider: String!
-      objetivos: [crearObjetivo]
-    ): Proyecto
+  enum Enum_TipoObjetivo {
+    GENERAL
+    ESPECIFICO
   }
 `;
 
-export { tiposProyecto };
+export { tiposEnums };
