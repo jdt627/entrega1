@@ -1,43 +1,45 @@
 import { gql } from 'apollo-server-express';
 
-const tiposUsuario = gql`
-  type Usuario {
+const tiposProyecto = gql`
+  type Objetivo {
+    _id: ID!
+    descripcion: String!
+    tipo: Enum_TipoObjetivo!
+  }
+
+  input crearObjetivo {
+    descripcion: String!
+    tipo: Enum_TipoObjetivo!
+  }
+
+  type Proyecto {
     _id: ID!
     nombre: String!
-    apellido: String!
-    identificacion: String!
-    correo: String!
-    rol: Enum_Rol!
-    estado: Enum_EstadoUsuario
+    presupuesto: Float!
+    fechaInicio: Date!
+    fechaFin: Date!
+    estado: Enum_EstadoProyecto!
+    fase: Enum_FaseProyecto!
+    lider: Usuario!
+    objetivos: [Objetivo]
   }
 
   type Query {
-    Usuarios: [Usuario]
-    Usuario(_id: String!): Usuario
+    Proyectos: [Proyecto]
   }
 
   type Mutation {
-    crearUsuario(
+    crearProyecto(
       nombre: String!
-      apellido: String!
-      identificacion: String!
-      correo: String!
-      rol: Enum_Rol!
-      estado: Enum_EstadoUsuario
-    ): Usuario
-
-    editarUsuario(
-      _id: String!
-      nombre: String!
-      apellido: String!
-      identificacion: String!
-      correo: String!
-      rol: Enum_Rol!
-      estado: Enum_EstadoUsuario
-    ): Usuario
-
-    eliminarUsuario(_id: String, correo: String): Usuario
+      presupuesto: Float!
+      fechaInicio: Date!
+      fechaFin: Date!
+      estado: Enum_EstadoProyecto!
+      fase: Enum_FaseProyecto!
+      lider: String!
+      objetivos: [crearObjetivo]
+    ): Proyecto
   }
 `;
 
-export { tiposUsuario };
+export { tiposProyecto };
